@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken'
 
-const TOKEN = process.env.TOKEN_SECRET ?? 'secret'
+const TOKEN = process.env.TOKEN_SECRET || 'secret'
 
 export function createToken(payload: string | Buffer | object) {
   return new Promise<string | undefined>((resolve, reject) => {

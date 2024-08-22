@@ -20,4 +20,5 @@ export interface SignInResponseType {
   success: boolean
   token?: string
   message?: string
+  user?: User
 }

@@ -37,10 +37,10 @@ export const FormSignUp = ({
           <Grid item xs={12} sm={6}>
             <TextField
               autoComplete="given-name"
-              name="firstName"
+              name="firstname"
               required
               fullWidth
-              id="firstName"
+              id="firstname"
               label={t.ui.forms.firstName}
               autoFocus={isAutoFocused}
             />
@@ -49,9 +49,9 @@ export const FormSignUp = ({
             <TextField
               required
               fullWidth
-              id="lastName"
+              id="lastname"
               label={t.ui.forms.lastName}
-              name="lastName"
+              name="lastname"
               autoComplete="family-name"
             />
           </Grid>
@@ -61,10 +61,10 @@ export const FormSignUp = ({
           <Grid item xs={12} sm={6}>
             <TextField
               autoComplete="given-name"
-              name="firstName"
+              name="firstname"
               required
               fullWidth
-              id="firstName"
+              id="firstname"
               label={t.ui.forms.firstName}
               autoFocus={isAutoFocused}
             />
@@ -73,9 +73,9 @@ export const FormSignUp = ({
             <TextField
               required
               fullWidth
-              id="lastName"
+              id="lastname"
               label={t.ui.forms.lastName}
-              name="lastName"
+              name="lastname"
               autoComplete="family-name"
             />
           </Grid>
@@ -92,28 +92,15 @@ export const FormSignUp = ({
         </>
       )}
       {isPassword ? (
-        <>
-          <Grid item xs={12}>
-            <TextField
-              required
-              fullWidth
-              name="password"
-              label={t.ui.forms.password}
-              type="password"
-              id="password"
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              required
-              fullWidth
-              name="confirm_password"
-              label={t.ui.forms.confirm_password}
-              type="confirm_password"
-              id="confirm_password"
-            />
-          </Grid>
-        </>
+        <Grid item xs={12}>
+          <TextField
+            required
+            fullWidth
+            name="password"
+            label={t.ui.forms.password}
+            id="password"
+          />
+        </Grid>
       ) : (
         <Grid item xs={12}>
           <TextField

@@ -1,7 +1,7 @@
 import { fetchUser } from '@/data/users'
 import { createToken } from '@/libs/jwt'
+import { RoleUser } from '@/types'
 import { NextApiRequest, NextApiResponse } from 'next'
-// eslint-disable-next-line @typescript-eslint/no-require-imports
 const cookie = require('cookie')
 export default async function handler(
   req: NextApiRequest,
@@ -13,10 +13,10 @@ export default async function handler(
     try {
       const foundUser = await fetchUser(username, password)
       if (foundUser) {
-        const token = createToken({
+        const token = await createToken({
           id: foundUser.id,
           username: foundUser.login.username,
-          role: foundUser.role,
+          role: foundUser.role ?? RoleUser.user,
         })
 
         res.setHeader(
@@ -28,7 +28,9 @@ export default async function handler(
             path: '/',
           })
         )
-        return res.send(foundUser)
+        return res.status(201).json({
+          user: foundUser,
+        })
       } else {
         return res.status(404).json({
           message:

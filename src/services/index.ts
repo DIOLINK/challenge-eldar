@@ -1,3 +1,2 @@
-import { SignIn, SignUp } from './actions'
-import { HeroBanners } from './heroes'
-export { HeroBanners, SignIn, SignUp }
+export * from './auth'
+export * from './routes'

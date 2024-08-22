@@ -1,10 +1,10 @@
+import { isFrontend } from '@/helpers'
 import { User } from '@/types'
 import axios from 'axios'
 const localStorageKey = 'users'
-export let users: User[] = JSON.parse(
-  localStorage.getItem(localStorageKey) || '[]'
-)
-const API_URL = process.env.API_URL ?? ''
+export let users: User[] = []
+
+export const API_URL = process.env.NEXT_PUBLIC_API_URL ?? ''
 export async function fetchUser(
   username: string,
   password: string
@@ -12,7 +12,8 @@ export async function fetchUser(
   if (users.length === 0) {
     const response = await axios.get<User[]>(API_URL)
     users = response.data
-    localStorage.setItem(localStorageKey, JSON.stringify(users))
+    if (isFrontend())
+      window.localStorage.setItem(localStorageKey, JSON.stringify(users))
   }
 
   return (
@@ -27,6 +28,14 @@ export function addUser(user: User) {
   users.push(user)
 }
 
-export function findUserByEmail(email: string): User | undefined {
+export async function findUserByEmail(
+  email: string
+): Promise<User | undefined> {
+  if (users.length === 0) {
+    const response = await axios.get<User[]>(API_URL)
+    users = response.data
+    if (isFrontend())
+      window.localStorage.setItem(localStorageKey, JSON.stringify(users))
+  }
   return users.find((user) => user.email === email)
 }

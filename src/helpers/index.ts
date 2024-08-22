@@ -1,3 +1,6 @@
+import { User } from '@/types'
+export * from './routes'
+
 export const isEmpty = <T>(array: T[] = []): boolean => {
   return array.length === 0
 }
@@ -27,4 +30,10 @@ export const getItemLocalStorage = <T>(key: string, initialValue: T): T => {
 
 export function isPathname(path: string, location: string): boolean {
   return location.toLowerCase() === path.toLowerCase()
+}
+
+export function greet(user: User): string {
+  const { firstname, lastname } = user
+  if (firstname && lastname) return `${firstname} ${lastname}`
+  return `${user.login.username}`
 }

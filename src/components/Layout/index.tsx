@@ -2,8 +2,7 @@ import { Container } from '@mui/material'
 import { PropsWithChildren } from 'react'
 import { Inside, Outside } from './styles'
 
-type LayoutProps = {}
-export const Layout = ({ children }: PropsWithChildren<LayoutProps>) => {
+export const Layout = ({ children }: PropsWithChildren) => {
   return (
     <Outside>
       <Inside>

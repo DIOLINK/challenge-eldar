@@ -1,13 +1,17 @@
 import { useUiContext } from '@/context'
 
+import { ISnackbarProps } from '@/context/uiContext'
+import { useUserContext } from '@/context/userContext'
+import { greet, ROUTES } from '@/helpers'
+import useTranslation from '@/hooks/useTranslation'
+import { SignIn, SignUp } from '@/services'
 import { CenterBox as AuthBox } from '@/styles/common/index'
 import {
   ContentFormsTemplate as AuthTemplate,
   ContentFormsTemplateFooter as AuthTemplateFooter,
 } from '@/template'
-// import { SignInType } from '@/types'
-import useTranslation from '@/hooks/useTranslation'
 import { Button, Grid, Link, Paper, useTheme } from '@mui/material'
+import { useRouter } from 'next/router'
 import { FormEvent, useState } from 'react'
 import { FormSignIn } from './FormSignIn'
 import { FormSignUp } from './FormSignUp'
@@ -15,50 +19,73 @@ import { FormSignUp } from './FormSignUp'
 export const AuthComponent = () => {
   const { t } = useTranslation()
   const theme = useTheme()
+  const router = useRouter()
   const [keyElement, setKeyElement] = useState('login')
-  const { setLoading } = useUiContext()
-  // function auth(user: SignInType) {
-  //   const alertsDefaultOption: ISnackbarProps = {
-  //     open: true,
-  //     severity: 'success',
-  //     isPermanent: false,
-  //   }
-  //   if (user.message || user.error) {
-  //     setAlerts({
-  //       ...alertsDefaultOption,
-  //       severity: 'error',
-  //       message: user.message,
-  //     })
-  //     console.error(user.message)
-  //   }
-  //   if (user.id) {
-  //     setAlerts({
-  //       ...alertsDefaultOption,
-  //       message: `Welcome`,
-  //     })
-  //   }
-  // }
+  const { setAlerts, setLoading } = useUiContext()
+  const { setUserContext } = useUserContext()
+  const alertsDefaultOption: ISnackbarProps = {
+    open: true,
+    severity: 'success',
+    isPermanent: false,
+    message: '',
+  }
 
   const handleSubmitSingIn = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     setLoading(true)
     const data = new FormData(event.currentTarget)
-    console.log('🚀 ~ handleSubmitSingIn ~ data:', data)
-
-    // SignIn(data)
-    //   .then((user) => auth(user))
-    //   .finally(() => setLoading(false))
+    SignIn(data)
+      .then(({ user }) => {
+        if (user) {
+          setAlerts({
+            ...alertsDefaultOption,
+            message: `${t.greet.welcome} ${greet(user)}`,
+          })
+          setUserContext(user)
+          setLoading(false)
+          router.push(ROUTES.home).then(() => setLoading(false))
+        }
+      })
+      .catch((error) => {
+        setAlerts({
+          ...alertsDefaultOption,
+          severity: 'error',
+          message: error.message,
+          isPermanent: true,
+        })
+        setLoading(false)
+      })
   }
   const handleSubmitSingUp = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     setLoading(true)
     const data = new FormData(event.currentTarget)
-    console.log('🚀 ~ handleSubmitSingUp ~ data:', data)
-    // SignUp(data)
-    //   .then((user) => {
-    //     auth(user)
-    //   })
-    //   .finally(() => setLoading(false))
+    SignUp(data)
+      .then(({ message, user }) => {
+        if (message) {
+          setAlerts({
+            ...alertsDefaultOption,
+            message,
+          })
+        }
+        if (user) {
+          setAlerts({
+            ...alertsDefaultOption,
+            message: `${t.greet.welcome} ${greet(user)}`,
+          })
+          setUserContext(user)
+          router.push(ROUTES.home).then(() => setLoading(false))
+        }
+      })
+      .catch((error) => {
+        setAlerts({
+          open: true,
+          severity: 'error',
+          message: error.message,
+          isPermanent: true,
+        })
+        setLoading(false)
+      })
   }
 
   const ELEMENT_OBJECT: { [key: string]: JSX.Element } = {
