@@ -3,13 +3,13 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { addUser, findUserByEmail, users } from '@/data/users'
 import { RoleUser } from '@/types'
 import { hashPassword } from '@/utils/hashPass'
-
+import { uuid } from 'uuidv4'
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   if (req.method === 'POST') {
-    const { firstname, lastname, email, password } = req.body
+    const { firstname, lastname, email, password, username } = req.body
 
     const existingUser = findUserByEmail(email)
     if (existingUser) {
@@ -23,7 +23,11 @@ export default async function handler(
       firstname,
       lastname,
       email,
-      password: hashedPassword,
+      login: {
+        uuid: uuid(),
+        username,
+        password: hashedPassword,
+      },
       role: RoleUser.user,
     }
 
