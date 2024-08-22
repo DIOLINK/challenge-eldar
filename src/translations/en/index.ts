@@ -90,6 +90,7 @@ export default {
       remember: 'Remember Me',
       userName: 'Username',
       password: 'Password',
+      confirm_password: 'Confirm Password',
       instagram: 'Instagram',
       tiktok: 'TicToc',
       discord: 'Discord',

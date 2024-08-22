@@ -89,6 +89,7 @@ export default {
       phone: 'Número de Teléfono',
       userName: 'Nombre de Usuario',
       password: 'Password',
+      confirm_password: 'Confirmar Password',
       instagram: 'Instagram',
       tiktok: 'TikTok',
       discord: 'Discord',

@@ -9,10 +9,10 @@ export const FormSignIn = () => {
         <TextField
           required
           fullWidth
-          id="email"
-          label={t.ui.forms.email}
-          name="email"
-          type="email"
+          id="username"
+          label={t.ui.forms.userName}
+          name="username"
+          type="text"
         />
       </Grid>
       <Grid item xs={12}>

@@ -1,5 +1,5 @@
 import useTranslation from '@/hooks/useTranslation'
-import { Checkbox, FormControlLabel, Grid, TextField } from '@mui/material'
+import { Grid, TextField } from '@mui/material'
 
 type FormSignUpProps = {
   isPassword?: boolean
@@ -32,6 +32,27 @@ export const FormSignUp = ({
               label={t.ui.forms.email}
               name="email"
               type="email"
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              autoComplete="given-name"
+              name="firstName"
+              required
+              fullWidth
+              id="firstName"
+              label={t.ui.forms.firstName}
+              autoFocus={isAutoFocused}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              required
+              fullWidth
+              id="lastName"
+              label={t.ui.forms.lastName}
+              name="lastName"
+              autoComplete="family-name"
             />
           </Grid>
         </>
@@ -70,17 +91,31 @@ export const FormSignUp = ({
           </Grid>
         </>
       )}
-      <Grid item xs={12}>
-        {isPassword ? (
-          <TextField
-            required
-            fullWidth
-            name="password"
-            label={t.ui.forms.password}
-            type="password"
-            id="password"
-          />
-        ) : (
+      {isPassword ? (
+        <>
+          <Grid item xs={12}>
+            <TextField
+              required
+              fullWidth
+              name="password"
+              label={t.ui.forms.password}
+              type="password"
+              id="password"
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              required
+              fullWidth
+              name="confirm_password"
+              label={t.ui.forms.confirm_password}
+              type="confirm_password"
+              id="confirm_password"
+            />
+          </Grid>
+        </>
+      ) : (
+        <Grid item xs={12}>
           <TextField
             required
             fullWidth
@@ -90,14 +125,6 @@ export const FormSignUp = ({
             name="message"
             label={t.ui.forms.message}
             id="message"
-          />
-        )}
-      </Grid>
-      {!isPassword && (
-        <Grid item xs={12}>
-          <FormControlLabel
-            control={<Checkbox name="newsletter" color="primary" />}
-            label={t.ui.forms.newsletter}
           />
         </Grid>
       )}

@@ -33,10 +33,7 @@ type UiContextType = {
 
 export const UiContext = createContext<UiContextType>({} as UiContextType)
 
-type UiContextProviderProps = {}
-export const UiContextProvider = ({
-  children,
-}: PropsWithChildren<UiContextProviderProps>) => {
+export const UiContextProvider = ({ children }: PropsWithChildren) => {
   const [isLoading, setLoading] = useState<boolean>(false)
   const [alerts, setAlerts] = useState<ISnackbarProps>(INIT_UI_ALERTS)
   const onHideSnackbar = () => {
