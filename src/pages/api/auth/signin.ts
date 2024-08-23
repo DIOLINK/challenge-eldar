@@ -29,7 +29,7 @@ export default async function handler(
           })
         )
         return res.status(201).json({
-          user: foundUser,
+          user: { ...foundUser, role: foundUser.role ?? RoleUser.user },
         })
       } else {
         return res.status(404).json({

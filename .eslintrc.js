@@ -30,5 +30,6 @@ module.exports = {
     'react/react-in-jsx-scope': 0,
     'react/jsx-uses-react': 0,
     '@typescript-eslint/no-require-imports': 0,
+    '@typescript-eslint/no-empty-object-type': 0,
   },
 }

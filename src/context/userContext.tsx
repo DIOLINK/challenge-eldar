@@ -3,7 +3,7 @@
 import { isEmpty } from '@/helpers'
 import { useLocalState } from '@/hooks/useLocalStorage'
 import { getUsers } from '@/services'
-import { User } from '@/types'
+import { ClearUser, User } from '@/types'
 import {
   PropsWithChildren,
   createContext,
@@ -14,7 +14,7 @@ import {
 
 interface UserContextType {
   user?: User
-  users?: User[]
+  users?: User[] | ClearUser[]
   setUserContext: (user: User) => void
   resetUser: () => void
 }
@@ -28,11 +28,16 @@ export const UserContextProvider = ({ children }: PropsWithChildren) => {
   )
   const [user, setUser] = useState<User | undefined>(storedValue as User)
 
-  const [storedUsersValue, setUsersValue] = useLocalState<User[]>('users', [])
-  const [users, setUsers] = useState<User[]>(storedUsersValue as User[])
+  const [storedUsersValue, setUsersValue] = useLocalState<User[] | ClearUser[]>(
+    'users',
+    []
+  )
+  const [users, setUsers] = useState<User[] | ClearUser[]>(
+    storedUsersValue as User[]
+  )
 
   useEffect(() => {
-    if (!isEmpty<User>(users)) return
+    if (!isEmpty<User | ClearUser>(users)) return
     getUsers().then((data) => {
       setUsers(data)
       setUsersValue(data)
