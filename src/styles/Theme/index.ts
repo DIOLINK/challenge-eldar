@@ -84,53 +84,6 @@ theme = createTheme({
         },
       },
     },
-    MuiSkeleton: {
-      styleOverrides: {
-        root: {
-          backgroundColor: COLORS.coral_orange,
-        },
-        rectangular: {
-          aspectRatio: '1/2',
-          width: '100%',
-          height: 400,
-        },
-      },
-    },
-    MuiTab: {
-      styleOverrides: {
-        root: {
-          maxWidth: 220,
-          border: '1px solid black',
-          margin: '0 2px',
-        },
-      },
-    },
-    MuiTabs: {
-      styleOverrides: {
-        scrollButtons: {
-          color: COLORS.coral_orange,
-          svg: {
-            fontSize: ICON_SIZE,
-          },
-        },
-        indicator: {
-          backgroundColor: COLORS.dark_green,
-          opacity: 0.5,
-        },
-      },
-    },
-    MuiTooltip: {
-      styleOverrides: {
-        tooltip: {
-          fontSize: '1rem',
-          fontWeight: 700,
-          color: COLORS.dark_green,
-          backgroundColor: alpha(COLORS.light_orange, 0.3),
-          backdropFilter: 'blur(3px)',
-        },
-        tooltipPlacementTop: {},
-      },
-    },
     MuiButton: {
       styleOverrides: {
         containedPrimary: {
@@ -138,6 +91,13 @@ theme = createTheme({
         },
         textPrimary: {
           padding: '2px 0px',
+        },
+      },
+    },
+    MuiTablePagination: {
+      styleOverrides: {
+        input: {
+          display: 'block !important',
         },
       },
     },
@@ -157,18 +117,18 @@ theme = createTheme({
         '@-moz-document url-prefix()': {
           html: {
             overflowY: 'auto',
-            scrollbarColor: `${COLORS.coral_orange} ${COLORS.light_orange}`,
+            scrollbarColor: `${COLORS.cadet_blue} ${COLORS.silver}`,
             scrollbarWidth: 'thin',
           },
         },
         '*::-webkit-scrollbar': {
-          width: '0.4rem',
+          width: '0.2rem',
         },
         '*::-webkit-scrollbar-track': {
           boxShadow: `inset ${shadows.boxShadow1}, inset ${shadows.boxShadow2}`,
         },
         '*::-webkit-scrollbar-thumb': {
-          backgroundColor: COLORS.coral_orange,
+          backgroundColor: COLORS.silver,
           borderRadius: 25,
         },
       },
