@@ -51,3 +51,7 @@ export interface Login {
   username: string
   password: string
 }
+
+export interface FlattenedObject {
+  [key: string]: string | number | boolean | null | undefined
+}
