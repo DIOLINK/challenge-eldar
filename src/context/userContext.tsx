@@ -1,10 +1,9 @@
 'use client'
 
-import { API_URL } from '@/data/users'
 import { isEmpty } from '@/helpers'
 import { useLocalState } from '@/hooks/useLocalStorage'
+import { getUsers } from '@/services'
 import { User } from '@/types'
-import axios from 'axios'
 import {
   PropsWithChildren,
   createContext,
@@ -34,11 +33,6 @@ export const UserContextProvider = ({ children }: PropsWithChildren) => {
 
   useEffect(() => {
     if (!isEmpty<User>(users)) return
-    const getUsers = async () => {
-      const response = await axios.get<User[]>(API_URL)
-      return response.data
-    }
-
     getUsers().then((data) => {
       setUsers(data)
       setUsersValue(data)

@@ -3,7 +3,6 @@ import { alpha, createTheme, responsiveFontSizes } from '@mui/material'
 import { COLORS, COLORS_BRIGHT } from '../Colors'
 import { alegreya, lato } from '../Fonts'
 
-const ICON_SIZE = '2rem'
 export const MIN_WIDTH = 320
 
 export const SHADOWS = {

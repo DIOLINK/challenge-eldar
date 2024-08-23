@@ -1,9 +1,5 @@
-import { DataTable } from '@/components'
+import { DataTable as UserTable } from '@/components'
 
 export const HomePage = () => {
-  return (
-    <>
-      <DataTable />
-    </>
-  )
+  return <UserTable />
 }

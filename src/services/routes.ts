@@ -1,5 +1,6 @@
 export const API_ROUTES = {
   root_auth: '/api/auth',
+  root_users: '/api/users',
   signin: function (): string {
     return `${this.root_auth}/signin`
   },
@@ -8,5 +9,8 @@ export const API_ROUTES = {
   },
   signout: function (): string {
     return `${this.root_auth}/signout`
+  },
+  users: function (): string {
+    return `${this.root_users}/getusers`
   },
 }
