@@ -72,6 +72,9 @@ export default {
     undefined: 'Algo salió mal, por favor intenta de nuevo',
   },
   ui: {
+    buttons: {
+      logout: 'Log out',
+    },
     language: 'Idioma',
     uploadImg: {
       avatar: 'Subir Imagen de Avatar',

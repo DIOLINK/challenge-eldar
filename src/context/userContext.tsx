@@ -1,20 +1,15 @@
 'use client'
 
-import { isEmpty } from '@/helpers'
+import { ROUTES } from '@/helpers'
 import { useLocalState } from '@/hooks/useLocalStorage'
-import { getUsers } from '@/services'
-import { ClearUser, User } from '@/types'
-import {
-  PropsWithChildren,
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-} from 'react'
+import { SignOut } from '@/services'
+import { User } from '@/types'
+import { useRouter } from 'next/router'
+import { createContext, PropsWithChildren, useContext, useState } from 'react'
+import { useApiContext } from './apiContext'
 
 interface UserContextType {
   user?: User
-  users?: User[] | ClearUser[]
   setUserContext: (user: User) => void
   resetUser: () => void
 }
@@ -22,27 +17,13 @@ interface UserContextType {
 export const UserContext = createContext<UserContextType>({} as UserContextType)
 
 export const UserContextProvider = ({ children }: PropsWithChildren) => {
+  const router = useRouter()
+  const { resetUsers } = useApiContext()
   const [storedValue, setValue] = useLocalState<User | undefined>(
     'user',
     undefined
   )
   const [user, setUser] = useState<User | undefined>(storedValue as User)
-
-  const [storedUsersValue, setUsersValue] = useLocalState<User[] | ClearUser[]>(
-    'users',
-    []
-  )
-  const [users, setUsers] = useState<User[] | ClearUser[]>(
-    storedUsersValue as User[]
-  )
-
-  useEffect(() => {
-    if (!isEmpty<User | ClearUser>(users)) return
-    getUsers().then((data) => {
-      setUsers(data)
-      setUsersValue(data)
-    })
-  }, [])
 
   function setUserContext(user: User) {
     setUser(user)
@@ -50,15 +31,18 @@ export const UserContextProvider = ({ children }: PropsWithChildren) => {
   }
 
   function resetUser() {
-    setUser(undefined)
-    setValue(undefined)
+    SignOut().then(() => {
+      setUser(undefined)
+      setValue(undefined)
+      resetUsers()
+      router.push(ROUTES.auth)
+    })
   }
 
   return (
     <UserContext.Provider
       value={{
         user,
-        users,
         setUserContext,
         resetUser,
       }}

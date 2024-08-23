@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 
 import { addUser, findUserByEmail, users } from '@/data/users'
 import { createToken } from '@/libs/jwt'
-import { RoleUser } from '@/types'
+import { RoleUser, User } from '@/types'
 import { hashPassword } from '@/utils/hashPass'
 import { uuid } from 'uuidv4'
 const cookie = require('cookie')
@@ -19,7 +19,7 @@ export default async function handler(
     }
     const hashedPassword = await hashPassword(password)
 
-    const newUser = {
+    const newUser: User = {
       id: users.length + 1,
       firstname,
       lastname,
@@ -29,7 +29,25 @@ export default async function handler(
         username,
         password: hashedPassword,
       },
+      address: {
+        city: '',
+        geo: {
+          lng: '',
+          lat: '',
+        },
+        street: '',
+        suite: '',
+        zipcode: '',
+      },
+      birthDate: new Date('1985-12-21'),
       role: RoleUser.admin,
+      phone: '',
+      website: '',
+      company: {
+        bs: '',
+        name: '',
+        catchPhrase: '',
+      },
     }
     const token = await createToken({
       id: newUser.id,

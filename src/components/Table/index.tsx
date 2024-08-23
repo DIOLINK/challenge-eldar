@@ -1,10 +1,10 @@
-import { useUserContext } from '@/context/userContext'
+import { useApiContext } from '@/context'
 import { ClearUser, User } from '@/types'
 import { Box } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
 
 export function DataTable() {
-  const { users } = useUserContext()
+  const { users } = useApiContext()
 
   return (
     <Box component={'section'} style={{ height: 400, width: '100%' }}>

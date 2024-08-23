@@ -52,5 +52,5 @@ export async function SignUp(formData: FormData): Promise<SignInResponseType> {
   }
 }
 export async function SignOut(): Promise<void> {
-  await axios.post<SignInResponseType>(API_ROUTES.signup())
+  await axios.post<SignInResponseType>(API_ROUTES.signout())
 }

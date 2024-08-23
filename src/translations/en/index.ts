@@ -72,6 +72,9 @@ export default {
     undefined: 'Something went wrong, please try again',
   },
   ui: {
+    buttons: {
+      logout: 'Log out',
+    },
     language: 'Language',
     uploadImg: {
       avatar: 'Upload Image Avatar',
