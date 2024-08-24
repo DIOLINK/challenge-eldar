@@ -1,10 +1,14 @@
 import { DialogContent, DialogContentText } from '@mui/material'
-import { useEffect, useRef } from 'react'
+import { PropsWithChildren, useEffect, useRef } from 'react'
 type DialogMessageProps = {
   content?: string
   open: boolean
 }
-export const DialogMessage = ({ content, open }: DialogMessageProps) => {
+export const DialogMessage = ({
+  content,
+  open,
+  children,
+}: PropsWithChildren<DialogMessageProps>) => {
   const descriptionElementRef = useRef<HTMLElement>(null)
   useEffect(() => {
     if (open) {
@@ -22,6 +26,7 @@ export const DialogMessage = ({ content, open }: DialogMessageProps) => {
         tabIndex={-1}
       >
         {content}
+        {children}
       </DialogContentText>
     </DialogContent>
   )

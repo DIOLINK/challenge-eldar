@@ -2,7 +2,7 @@ import { Box, IconButton } from '@mui/material'
 
 import { useApiContext, useUiContext, useUserContext } from '@/context'
 import useTranslation from '@/hooks/useTranslation'
-import { TypeDialog } from '@/types'
+import { RenderDialogProps, TypeDialog } from '@/types'
 import { isAdmin } from '@/utils/isAdmin'
 import AddIcon from '@mui/icons-material/Add'
 import DeleteIcon from '@mui/icons-material/Delete'
@@ -18,14 +18,14 @@ export function BasicButtonGroup() {
       typeDialog: TypeDialog.create,
       title: t.ui.buttons.create,
       open: true,
-    })
+    } as RenderDialogProps)
   }
   function onEditUser(): void {
     setDialog({
       typeDialog: TypeDialog.edit,
       title: t.ui.buttons.edit,
       open: true,
-    })
+    } as RenderDialogProps)
   }
   function onDeleteUser(): void {
     setDialog({
@@ -36,7 +36,7 @@ export function BasicButtonGroup() {
       onSucces: () => {
         deleteUsers()
       },
-    })
+    } as RenderDialogProps)
   }
   const ICON_SIZE = 32
   return (

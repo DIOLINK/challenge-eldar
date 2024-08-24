@@ -1,5 +1,9 @@
-import { BasicButtonGroup, DataTable as UserTable } from '@/components'
-import { useApiContext, useUserContext } from '@/context'
+import {
+  BasicButtonGroup,
+  RenderDialog,
+  DataTable as UserTable,
+} from '@/components'
+import { useApiContext, useUiContext, useUserContext } from '@/context'
 
 import { isEmpty } from '@/helpers'
 import useTranslation from '@/hooks/useTranslation'
@@ -12,6 +16,10 @@ export const HomePage = () => {
   const { t } = useTranslation()
   const { resetUser } = useUserContext()
   const { users, setUsersContext } = useApiContext()
+  const { dialog, setDialog } = useUiContext()
+  const onHideDialog = () => {
+    setDialog({ ...dialog, open: false })
+  }
   useEffect(() => {
     if (!isEmpty<User | ClearUser>(users)) return
     getUsers().then((data) => {
@@ -29,6 +37,7 @@ export const HomePage = () => {
       </Button>
       <UserTable />
       <BasicButtonGroup />
+      {RenderDialog({ ...dialog, onHideDialog })}
     </>
   )
 }

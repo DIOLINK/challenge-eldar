@@ -1,5 +1,5 @@
 import { useApiContext, useUserContext } from '@/context'
-import { ClearUser, User } from '@/types'
+import { User } from '@/types'
 import { flattenObject } from '@/utils/flattenObject'
 import { isAdmin } from '@/utils/isAdmin'
 import { Box } from '@mui/material'
@@ -13,7 +13,7 @@ export function DataTable() {
       <DataGrid
         rows={users?.map((user) => flattenObject(user))}
         columns={Object.keys({
-          ...flattenObject((users as User[] | ClearUser[])[0] ?? {}),
+          ...flattenObject((users as User[])[0] ?? {}),
         }).map((key) => ({
           field: key,
           headerName: key.charAt(0).toUpperCase() + key.slice(1),

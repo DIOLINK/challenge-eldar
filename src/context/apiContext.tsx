@@ -1,7 +1,7 @@
 'use client'
 
 import { useLocalState } from '@/hooks/useLocalStorage'
-import { ClearUser, User } from '@/types'
+import { User } from '@/types'
 import { GridRowSelectionModel } from '@mui/x-data-grid'
 import {
   createContext,
@@ -14,11 +14,10 @@ import {
 } from 'react'
 
 interface ApiContextType {
-  users?: User[] | ClearUser[]
+  users?: User[]
   rowSelectionModel: GridRowSelectionModel
   setUsersContext: (users: User[]) => void
   addUser: (user: User) => void
-  createUsers: () => void
   editUsers: (user: User) => void
   deleteUsers: () => void
   setRowSelectionModel: Dispatch<SetStateAction<GridRowSelectionModel>>
@@ -51,10 +50,9 @@ export const UsersContextProvider = ({ children }: PropsWithChildren) => {
       setUsersValue(users)
     }
   }
-  function createUsers() {}
 
-  function editUsers(user: User) {
-    console.log(`Editing user with ID: ${rowSelectionModel}`, user)
+  function editUsers() {
+    console.log(`Editing user with ID: ${rowSelectionModel}`)
   }
 
   function deleteUsers() {
@@ -72,7 +70,6 @@ export const UsersContextProvider = ({ children }: PropsWithChildren) => {
         rowSelectionModel,
         setUsersContext,
         addUser,
-        createUsers,
         editUsers,
         deleteUsers,
         setRowSelectionModel,

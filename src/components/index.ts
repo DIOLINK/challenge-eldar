@@ -1,6 +1,7 @@
 export * from './Buttons'
 export * from './Dialog'
 export * from './Layout'
+export * from './Loading'
 export * from './Snackbar'
 export * from './Table'
 export * from './Views'

@@ -1,5 +1,5 @@
 'use client'
-import { RenderDialog, renderSnackbar } from '@/components'
+import { LoadingBackdrop, renderSnackbar } from '@/components'
 import { RenderDialogProps } from '@/types'
 import {
   Dispatch,
@@ -31,6 +31,7 @@ export interface ISnackbarProps {
 type UiContextType = {
   isLoading: boolean
   alerts: ISnackbarProps
+  dialog: RenderDialogProps
   setLoading: Dispatch<SetStateAction<boolean>>
   setAlerts: Dispatch<SetStateAction<ISnackbarProps>>
   setDialog: Dispatch<SetStateAction<RenderDialogProps>>
@@ -47,15 +48,12 @@ export const UiContextProvider = ({ children }: PropsWithChildren) => {
   const onHideSnackbar = () => {
     setAlerts({ ...alerts, open: false })
   }
-  const onHideDialog = () => {
-    setDialog({ ...dialog, open: false })
-  }
   return (
     <UiContext.Provider
-      value={{ isLoading, alerts, setLoading, setAlerts, setDialog }}
+      value={{ isLoading, alerts, dialog, setLoading, setAlerts, setDialog }}
     >
       {renderSnackbar({ ...alerts, onHideSnackbar })}
-      {RenderDialog({ ...dialog, onHideDialog })}
+      {isLoading && <LoadingBackdrop />}
       {children}
     </UiContext.Provider>
   )

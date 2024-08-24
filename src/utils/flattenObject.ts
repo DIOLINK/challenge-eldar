@@ -17,3 +17,18 @@ export function flattenObject<T extends object>(
   })
   return result
 }
+
+export const ATTRIBUTES_TO_REMOVE: string[] = ['id', 'Login.uuid']
+
+export function removeAttributes(
+  obj: FlattenedObject,
+  attributesToRemove: string[]
+): FlattenedObject {
+  const result: FlattenedObject = { ...obj }
+
+  attributesToRemove.forEach((attr) => {
+    delete result[attr]
+  })
+
+  return result
+}

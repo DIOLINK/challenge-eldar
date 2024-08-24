@@ -34,7 +34,7 @@ export interface Address {
   suite: string
   city: string
   zipcode: string
-  geo: Geo
+  geo?: Geo
 }
 
 export interface Geo {
@@ -47,7 +47,6 @@ export interface Company {
   catchPhrase: string
   bs: string
 }
-
 export interface Login {
   uuid: string
   username: string
@@ -62,7 +61,7 @@ export interface RenderDialogProps extends DialogProps {
   title: string
   typeDialog: TypeDialog
   content?: string
-  onHideDialog?: () => void
+  onHideDialog: () => void
   onSucces?: () => void
 }
 

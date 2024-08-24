@@ -4,7 +4,7 @@ import { keyframes } from '@emotion/react'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import { Box, Button, Grid, Link, Typography } from '@mui/material'
 import { MouseEventHandler } from 'react'
-import { RootContentForm } from './styles'
+import { ButtonForm, RootContentForm } from './styles'
 
 type TemplateProps = {
   title: string
@@ -15,7 +15,9 @@ type TemplateProps = {
   footerElement?: JSX.Element
   isNoValidate?: boolean
   formElement: JSX.Element
+  isCancelBtn?: boolean
   onSubmit?: (event: React.FormEvent<HTMLFormElement>) => void
+  onCancel?: () => void
 }
 const scaleUpCenter = keyframes`0%{transform:scale(.7)} 100%{transform:scale(1)}`
 export const ContentFormsTemplate = ({
@@ -27,6 +29,8 @@ export const ContentFormsTemplate = ({
   iconElement = <LockOutlinedIcon sx={{ fill: COLORS.stratos }} />,
   sizeWidth = 'xs',
   isNoValidate = true,
+  isCancelBtn = false,
+  onCancel,
   onSubmit,
 }: TemplateProps) => {
   return (
@@ -46,21 +50,40 @@ export const ContentFormsTemplate = ({
         maxWidth={sizeWidth}
       >
         {formElement}
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          sx={{
-            mt: 3,
-            mb: 2,
-            maxWidth: 'clamp(150px, 70%, 300px)',
-            fontWeight: 'bold',
-            letterSpacing: '0.03rem',
-            borderRadius: 11,
-          }}
-        >
-          {textBtnSubmite ?? title}
-        </Button>
+
+        {isCancelBtn ? (
+          <Grid
+            container
+            sx={{
+              width: '100%',
+              justifyContent: 'space-around',
+              paddingTop: '10px',
+            }}
+          >
+            <ButtonForm type="submit" color="success" variant="contained">
+              Save
+            </ButtonForm>
+            <ButtonForm variant="contained" color="error" onClick={onCancel}>
+              Cancel
+            </ButtonForm>
+          </Grid>
+        ) : (
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{
+              mt: 3,
+              mb: 2,
+              maxWidth: 'clamp(150px, 70%, 300px)',
+              fontWeight: 'bold',
+              letterSpacing: '0.03rem',
+              borderRadius: 11,
+            }}
+          >
+            {textBtnSubmite ?? title}
+          </Button>
+        )}
         {footerElement && footerElement}
       </Box>
     </RootContentForm>
