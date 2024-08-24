@@ -1,5 +1,4 @@
 import { useApiContext } from '@/context'
-import { useUser } from '@/hooks/useUser'
 import { User } from '@/types'
 import {
   ATTRIBUTES_TO_REMOVE,
@@ -9,8 +8,7 @@ import {
 import { Grid, TextField } from '@mui/material'
 
 export const Userform = () => {
-  const { users } = useApiContext()
-  const { values, handleInputChange } = useUser(users as User[])
+  const { users, values, handleInputChange } = useApiContext()
 
   return (
     <Grid container spacing={2} maxWidth={'md'}>

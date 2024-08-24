@@ -16,13 +16,9 @@ export async function getUsers(): Promise<User[]> {
     }
   }
 }
-export async function putUser(user: User): Promise<User> {
+export async function putUser(): Promise<User> {
   try {
-    const body = {
-      user,
-    }
-
-    const response = await axios.put<User>(API_ROUTES.edituser(), body)
+    const response = await axios.put<User>(API_ROUTES.edituser())
     return response.data
   } catch (error) {
     console.error('Error during edit user:', error)

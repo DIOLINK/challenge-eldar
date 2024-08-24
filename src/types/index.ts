@@ -51,6 +51,9 @@ export interface Login {
   uuid: string
   username: string
   password: string
+  md5: string
+  sha1: string
+  registered: Date
 }
 
 export interface FlattenedObject {
@@ -62,7 +65,7 @@ export interface RenderDialogProps extends DialogProps {
   typeDialog: TypeDialog
   content?: string
   onHideDialog: () => void
-  onSucces?: () => void
+  onSucces?: (newUser?: User) => void
 }
 
 export enum TypeDialog {

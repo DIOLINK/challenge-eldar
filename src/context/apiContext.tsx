@@ -1,9 +1,13 @@
 'use client'
 
+import { useForm } from '@/hooks/useForm'
+import { useFormUser } from '@/hooks/useFormUser'
 import { useLocalState } from '@/hooks/useLocalStorage'
-import { User } from '@/types'
+import { FlattenedObject, User } from '@/types'
+import { flattenObject } from '@/utils/flattenObject'
 import { GridRowSelectionModel } from '@mui/x-data-grid'
 import {
+  ChangeEvent,
   createContext,
   Dispatch,
   PropsWithChildren,
@@ -15,12 +19,16 @@ import {
 
 interface ApiContextType {
   users?: User[]
+  userSelected: User
+  values: FlattenedObject
   rowSelectionModel: GridRowSelectionModel
   setUsersContext: (users: User[]) => void
   addUser: (user: User) => void
   editUsers: (user: User) => void
   deleteUsers: () => void
   setRowSelectionModel: Dispatch<SetStateAction<GridRowSelectionModel>>
+  setUserSelected: Dispatch<SetStateAction<User>>
+  handleInputChange: (event: ChangeEvent<HTMLInputElement>) => void
 }
 
 export const ApiContext = createContext<ApiContextType>({} as ApiContextType)
@@ -31,6 +39,23 @@ export const UsersContextProvider = ({ children }: PropsWithChildren) => {
     useState<GridRowSelectionModel>([])
   const [users, setUsers] = useState<User[]>(storedUsersValue as User[])
 
+  const { userSelected, userByValues, setUserSelected } = useFormUser(users)
+
+  const { values, handleInputChange, reset } = useForm<FlattenedObject>({
+    ...flattenObject({
+      ...users.find((user) => user.id === rowSelectionModel[0]),
+    }),
+  })
+
+  useEffect(() => {
+    const findUser = users.find((user) => user.id === rowSelectionModel[0])
+    reset({
+      ...flattenObject({
+        ...findUser,
+      }),
+    })
+  }, [setRowSelectionModel, rowSelectionModel])
+
   useEffect(() => {
     setUsersValue(users)
   }, [users])
@@ -39,7 +64,8 @@ export const UsersContextProvider = ({ children }: PropsWithChildren) => {
     setUsers(users)
   }
 
-  function addUser(newUser: User) {
+  function addUser() {
+    const newUser = userByValues()
     const findUser = users.find(
       (user) =>
         user.email.toLowerCase() === newUser.email.toLowerCase() &&
@@ -51,9 +77,7 @@ export const UsersContextProvider = ({ children }: PropsWithChildren) => {
     }
   }
 
-  function editUsers() {
-    console.log(`Editing user with ID: ${rowSelectionModel}`)
-  }
+  function editUsers() {}
 
   function deleteUsers() {
     if (rowSelectionModel.length > 0) {
@@ -66,8 +90,12 @@ export const UsersContextProvider = ({ children }: PropsWithChildren) => {
   return (
     <ApiContext.Provider
       value={{
+        values,
         users,
+        userSelected,
         rowSelectionModel,
+        setUserSelected,
+        handleInputChange,
         setUsersContext,
         addUser,
         editUsers,

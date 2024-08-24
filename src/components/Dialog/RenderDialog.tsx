@@ -1,6 +1,7 @@
-// import { useUiContext } from '@/context'
+import { useUiContext } from '@/context'
 import { RenderDialogProps } from '@/types'
-import { Button, Dialog, DialogActions, DialogTitle } from '@mui/material'
+import { Button, Dialog, DialogTitle } from '@mui/material'
+import { ActiosButons } from './ActionButon'
 import { DialogEdit } from './EditUser'
 import { DialogMessage } from './Message'
 
@@ -12,7 +13,7 @@ export const RenderDialog = ({
   onHideDialog,
   onSucces,
 }: RenderDialogProps) => {
-  // const { setAlerts, setLoading } = useUiContext()
+  const { setAlerts, setLoading } = useUiContext()
 
   function handleSuccess() {
     if (onSucces && onHideDialog) {
@@ -21,60 +22,43 @@ export const RenderDialog = ({
     }
   }
 
-  // const handleSubmitEditUser = (event: FormEvent<HTMLFormElement>) => {
-  //   event.preventDefault()
-  //   setLoading(true)
-  //   const alertsDefaultOption: ISnackbarProps = {
-  //     open: true,
-  //     severity: 'success',
-  //     isPermanent: false,
-  //     message: '',
-  //   }
+  const handleUser = () => {
+    setLoading(true)
 
-  //   putUser({} as User)
-  //     .then(() => {
-  //       setAlerts({
-  //         ...alertsDefaultOption,
-  //         message: 'Success',
-  //       })
-  //     })
-  //     .catch(() => {
-  //       setAlerts({
-  //         open: true,
-  //         severity: 'error',
-  //         message: 'error',
-  //         isPermanent: true,
-  //       })
-  //       setLoading(false)
-  //     })
-  // }
+    setAlerts({
+      open: true,
+      severity: 'success',
+      isPermanent: false,
+      message: 'Success',
+    })
 
-  function ActiosButons() {
-    return (
-      <DialogActions>
-        <Button onClick={onHideDialog}>Cancel</Button>
-        <Button onClick={handleSuccess}>Send</Button>
-      </DialogActions>
-    )
+    onHideDialog()
+    setLoading(false)
   }
 
   const ELEMENTS_DIALOG: { [key: string]: JSX.Element } = {
     message: (
       <>
         <DialogMessage open={open} content={content} />
-        {ActiosButons()}
+        <ActiosButons onCancel={onHideDialog}>
+          <Button onClick={handleSuccess}>Send</Button>
+        </ActiosButons>
       </>
     ),
     edit: (
       <>
-        <DialogEdit />
-        {ActiosButons()}
+        <DialogEdit open={open} />
+        <ActiosButons onCancel={onHideDialog}>
+          <Button onClick={handleUser}>Send</Button>
+        </ActiosButons>
       </>
     ),
     create: (
       <>
-        <DialogEdit />
-        {ActiosButons()}
+        <DialogEdit open={open} />
+        <ActiosButons onCancel={onHideDialog}>
+          <Button onClick={handleUser}>Send</Button>
+        </ActiosButons>
       </>
     ),
   }

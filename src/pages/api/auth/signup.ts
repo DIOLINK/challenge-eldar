@@ -28,6 +28,9 @@ export default async function handler(
         uuid: uuid(),
         username,
         password: hashedPassword,
+        md5: '',
+        sha1: '',
+        registered: new Date(),
       },
       address: {
         city: '',
