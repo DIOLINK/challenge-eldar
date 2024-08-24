@@ -1,12 +1,13 @@
-import { useApiContext } from '@/context'
+import { useApiContext, useUserContext } from '@/context'
 import { ClearUser, User } from '@/types'
 import { flattenObject } from '@/utils/flattenObject'
+import { isAdmin } from '@/utils/isAdmin'
 import { Box } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
 
 export function DataTable() {
-  const { users } = useApiContext()
-
+  const { users, setRowSelectionModel, rowSelectionModel } = useApiContext()
+  const { user } = useUserContext()
   return (
     <Box component={'section'} style={{ height: 400, width: '100%' }}>
       <DataGrid
@@ -23,6 +24,11 @@ export function DataTable() {
             paginationModel: { page: 0, pageSize: 5 },
           },
         }}
+        checkboxSelection={isAdmin(user)}
+        onRowSelectionModelChange={(newRowSelectionModel) => {
+          setRowSelectionModel(newRowSelectionModel)
+        }}
+        rowSelectionModel={rowSelectionModel}
         pageSizeOptions={[5, 10]}
       />
     </Box>

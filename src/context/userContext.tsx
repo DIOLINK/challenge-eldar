@@ -6,7 +6,6 @@ import { SignOut } from '@/services'
 import { User } from '@/types'
 import { useRouter } from 'next/router'
 import { createContext, PropsWithChildren, useContext, useState } from 'react'
-import { useApiContext } from './apiContext'
 
 interface UserContextType {
   user?: User
@@ -18,7 +17,6 @@ export const UserContext = createContext<UserContextType>({} as UserContextType)
 
 export const UserContextProvider = ({ children }: PropsWithChildren) => {
   const router = useRouter()
-  const { resetUsers } = useApiContext()
   const [storedValue, setValue] = useLocalState<User | undefined>(
     'user',
     undefined
@@ -34,7 +32,6 @@ export const UserContextProvider = ({ children }: PropsWithChildren) => {
     SignOut().then(() => {
       setUser(undefined)
       setValue(undefined)
-      resetUsers()
       router.push(ROUTES.auth)
     })
   }

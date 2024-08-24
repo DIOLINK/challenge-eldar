@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-import { addUser, findUserByEmail, users } from '@/data/users'
+import { findUserByEmail, users } from '@/data/users'
 import { createToken } from '@/libs/jwt'
 import { RoleUser, User } from '@/types'
 import { hashPassword } from '@/utils/hashPass'
@@ -63,7 +63,6 @@ export default async function handler(
         path: '/',
       })
     )
-    addUser(newUser)
 
     return res
       .status(201)

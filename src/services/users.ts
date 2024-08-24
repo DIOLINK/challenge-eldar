@@ -16,3 +16,17 @@ export async function getUsers(): Promise<User[]> {
     }
   }
 }
+export async function editUser(): Promise<User> {
+  try {
+    const response = await axios.put<User>(API_ROUTES.edituser())
+    return response.data
+  } catch (error) {
+    console.error('Error during edit user:', error)
+
+    if (axios.isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.message || 'Failed to edit')
+    } else {
+      throw new Error('An unexpected error occurred')
+    }
+  }
+}

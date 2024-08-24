@@ -74,6 +74,9 @@ export default {
   ui: {
     buttons: {
       logout: 'Log out',
+      create: 'Create',
+      delete: 'Delete',
+      edit: 'Edit',
     },
     language: 'Language',
     uploadImg: {
