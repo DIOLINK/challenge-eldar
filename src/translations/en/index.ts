@@ -104,5 +104,7 @@ export default {
       newsletter:
         'I want to receive inspiration, marketing promotions and updates via email.',
     },
+    delete: (idsText: number[]) =>
+      `Are you sure you want to delete the user(s) with the following ID(s): ${idsText}? This action cannot be undone.`,
   },
 }

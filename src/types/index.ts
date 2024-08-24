@@ -1,3 +1,5 @@
+import { DialogProps } from '@mui/material'
+
 export interface ClearUser
   extends Omit<User, 'login' | 'email' | 'addres' | 'phone'> {}
 
@@ -54,4 +56,18 @@ export interface Login {
 
 export interface FlattenedObject {
   [key: string]: string | number | boolean | null | undefined
+}
+
+export interface RenderDialogProps extends DialogProps {
+  title: string
+  typeDialog: TypeDialog
+  content?: string
+  onHideDialog?: () => void
+  onSucces?: () => void
+}
+
+export enum TypeDialog {
+  message = 'message',
+  edit = 'edit',
+  create = 'create',
 }

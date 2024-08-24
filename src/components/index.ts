@@ -1,4 +1,5 @@
 export * from './Buttons'
+export * from './Dialog'
 export * from './Layout'
 export * from './Snackbar'
 export * from './Table'

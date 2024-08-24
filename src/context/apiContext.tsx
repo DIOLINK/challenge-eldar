@@ -9,14 +9,15 @@ import {
   PropsWithChildren,
   SetStateAction,
   useContext,
+  useEffect,
   useState,
 } from 'react'
 
 interface ApiContextType {
   users?: User[] | ClearUser[]
   rowSelectionModel: GridRowSelectionModel
-  setUsersContext: (users: User[] | ClearUser[]) => void
-  resetUsers: () => void
+  setUsersContext: (users: User[]) => void
+  addUser: (user: User) => void
   createUsers: () => void
   editUsers: (user: User) => void
   deleteUsers: () => void
@@ -26,23 +27,29 @@ interface ApiContextType {
 export const ApiContext = createContext<ApiContextType>({} as ApiContextType)
 
 export const UsersContextProvider = ({ children }: PropsWithChildren) => {
-  const [storedUsersValue, setUsersValue] = useLocalState<User[] | ClearUser[]>(
-    'users',
-    []
-  )
+  const [storedUsersValue, setUsersValue] = useLocalState<User[]>('users', [])
   const [rowSelectionModel, setRowSelectionModel] =
     useState<GridRowSelectionModel>([])
-  const [users, setUsers] = useState<User[] | ClearUser[]>(
-    storedUsersValue as User[] | ClearUser[]
-  )
+  const [users, setUsers] = useState<User[]>(storedUsersValue as User[])
 
-  function setUsersContext(users: User[] | ClearUser[]) {
+  useEffect(() => {
     setUsersValue(users)
+  }, [users])
+
+  function setUsersContext(users: User[]) {
     setUsers(users)
   }
 
-  function resetUsers() {
-    setUsersValue([])
+  function addUser(newUser: User) {
+    const findUser = users.find(
+      (user) =>
+        user.email.toLowerCase() === newUser.email.toLowerCase() &&
+        user.login.username.toLowerCase() === user.login.username.toLowerCase()
+    )
+    if (!findUser) {
+      setUsers((oldUsers) => [...oldUsers, newUser])
+      setUsersValue(users)
+    }
   }
   function createUsers() {}
 
@@ -53,8 +60,7 @@ export const UsersContextProvider = ({ children }: PropsWithChildren) => {
   function deleteUsers() {
     if (rowSelectionModel.length > 0) {
       rowSelectionModel.forEach((singleId) => {
-        const nuwUsers = users.filter((u) => u.id !== singleId)
-        console.log('🚀 ~ ids.forEach ~ nuwUsers:', nuwUsers)
+        setUsers((oldUsers) => oldUsers.filter((u) => u.id !== singleId))
       })
     }
   }
@@ -65,7 +71,7 @@ export const UsersContextProvider = ({ children }: PropsWithChildren) => {
         users,
         rowSelectionModel,
         setUsersContext,
-        resetUsers,
+        addUser,
         createUsers,
         editUsers,
         deleteUsers,

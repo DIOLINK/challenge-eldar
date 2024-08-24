@@ -1,5 +1,6 @@
 'use client'
-import { renderSnackbar } from '@/components'
+import { RenderDialog, renderSnackbar } from '@/components'
+import { RenderDialogProps } from '@/types'
 import {
   Dispatch,
   PropsWithChildren,
@@ -17,6 +18,9 @@ export const INIT_UI_ALERTS: ISnackbarProps = {
   message: '',
   isPermanent: false,
 }
+export const INIT_UI_MODALS = {
+  open: false,
+}
 export interface ISnackbarProps {
   open: boolean
   severity: TSeverity
@@ -29,6 +33,7 @@ type UiContextType = {
   alerts: ISnackbarProps
   setLoading: Dispatch<SetStateAction<boolean>>
   setAlerts: Dispatch<SetStateAction<ISnackbarProps>>
+  setDialog: Dispatch<SetStateAction<RenderDialogProps>>
 }
 
 export const UiContext = createContext<UiContextType>({} as UiContextType)
@@ -36,12 +41,21 @@ export const UiContext = createContext<UiContextType>({} as UiContextType)
 export const UiContextProvider = ({ children }: PropsWithChildren) => {
   const [isLoading, setLoading] = useState<boolean>(false)
   const [alerts, setAlerts] = useState<ISnackbarProps>(INIT_UI_ALERTS)
+  const [dialog, setDialog] = useState<RenderDialogProps>(
+    {} as RenderDialogProps
+  )
   const onHideSnackbar = () => {
     setAlerts({ ...alerts, open: false })
   }
+  const onHideDialog = () => {
+    setDialog({ ...dialog, open: false })
+  }
   return (
-    <UiContext.Provider value={{ isLoading, alerts, setLoading, setAlerts }}>
+    <UiContext.Provider
+      value={{ isLoading, alerts, setLoading, setAlerts, setDialog }}
+    >
       {renderSnackbar({ ...alerts, onHideSnackbar })}
+      {RenderDialog({ ...dialog, onHideDialog })}
       {children}
     </UiContext.Provider>
   )
