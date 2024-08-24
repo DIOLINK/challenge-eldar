@@ -5,8 +5,8 @@ Este proyecto consiste en la creación de una aplicación web con un sistema de 
 
 ## Requisitos Técnicos
 - [X] Utilizar **Next.js**.
-- [ ] Implementar una arquitectura de carpetas bien estructurada y organizada.
-- [ ] Realizar la entrega en un repositorio (no es necesario el deploy).
+- [x] Implementar una arquitectura de carpetas bien estructurada y organizada.
+- [x] Realizar la entrega en un repositorio (no es necesario el deploy).
 - [X] Incluir un **README** detallado.
 
 ## Funcionalidades
