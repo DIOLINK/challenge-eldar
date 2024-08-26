@@ -22,7 +22,7 @@ interface ApiContextType {
   rowSelectionModel: GridRowSelectionModel
   setUsersContext: (users: User[]) => void
   addUser: (user: User) => void
-  editUsers: (user: User) => void
+  editUsers: () => void
   deleteUsers: () => void
   createUser: () => void
   setRowSelectionModel: Dispatch<SetStateAction<GridRowSelectionModel>>

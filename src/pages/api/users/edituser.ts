@@ -14,7 +14,7 @@ export default async function handler(
         if (decode) {
           const { role } = decode as { role: RoleUser }
           if (role === RoleUser.admin) {
-            return res.status(201)
+            return res.send(201)
           } else {
             return res.status(403).json({
               message: 'You don`t have permission to access this resource.',

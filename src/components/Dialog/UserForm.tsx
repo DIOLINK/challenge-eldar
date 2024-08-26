@@ -9,7 +9,8 @@ import { Grid, TextField } from '@mui/material'
 
 export const Userform = () => {
   const { users, values, handleInputChange } = useApiContext()
-
+  const DISABLED_KEY = ['login.uuid']
+  const REQUIRED_KEY = ['firstname', 'lastname', 'email', 'login.username']
   return (
     <Grid container spacing={2} maxWidth={'md'}>
       {Object.keys(
@@ -26,6 +27,8 @@ export const Userform = () => {
             name={key}
             onChange={handleInputChange}
             value={values[key]}
+            disabled={DISABLED_KEY.includes(key)}
+            required={REQUIRED_KEY.includes(key)}
           />
         </Grid>
       ))}

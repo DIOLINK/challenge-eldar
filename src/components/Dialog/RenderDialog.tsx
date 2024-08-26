@@ -1,7 +1,7 @@
 import { useApiContext, useUiContext } from '@/context'
-import { postUser } from '@/services'
+import { postUser, putUser } from '@/services'
 import { RenderDialogProps } from '@/types'
-import { Button, Dialog, DialogTitle } from '@mui/material'
+import { Box, Button, Dialog, DialogTitle } from '@mui/material'
 import { ActiosButons } from './ActionButon'
 import { DialogEdit } from './EditUser'
 import { DialogMessage } from './Message'
@@ -15,7 +15,7 @@ export const RenderDialog = ({
   onSucces,
 }: RenderDialogProps) => {
   const { setAlerts, setLoading } = useUiContext()
-  const { createUser } = useApiContext()
+  const { createUser, editUsers } = useApiContext()
   function handleSuccess() {
     if (onSucces && onHideDialog) {
       onSucces()
@@ -40,16 +40,17 @@ export const RenderDialog = ({
   }
   const handleEditUser = () => {
     setLoading(true)
-
-    setAlerts({
-      open: true,
-      severity: 'success',
-      isPermanent: false,
-      message: 'Success',
+    putUser().then(() => {
+      setAlerts({
+        open: true,
+        severity: 'success',
+        isPermanent: false,
+        message: 'Success',
+      })
+      onHideDialog()
+      editUsers()
+      setLoading(false)
     })
-
-    onHideDialog()
-    setLoading(false)
   }
 
   const ELEMENTS_DIALOG: { [key: string]: JSX.Element } = {
@@ -70,12 +71,12 @@ export const RenderDialog = ({
       </>
     ),
     create: (
-      <>
+      <Box component="form" noValidate={false} onSubmit={handleCreateUser}>
         <DialogEdit open={open} />
         <ActiosButons onCancel={onHideDialog}>
-          <Button onClick={handleCreateUser}>Send</Button>
+          <Button type="submit">Send</Button>
         </ActiosButons>
-      </>
+      </Box>
     ),
   }
 
