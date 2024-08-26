@@ -1,4 +1,4 @@
-import { useUiContext } from '@/context'
+import { useApiContext, useUiContext } from '@/context'
 
 import { ISnackbarProps } from '@/context/uiContext'
 import { useUserContext } from '@/context/userContext'
@@ -22,6 +22,7 @@ export const AuthComponent = () => {
   const router = useRouter()
   const [keyElement, setKeyElement] = useState('login')
   const { setAlerts, setLoading } = useUiContext()
+  const { addUser } = useApiContext()
   const { setUserContext } = useUserContext()
   const alertsDefaultOption: ISnackbarProps = {
     open: true,
@@ -74,6 +75,7 @@ export const AuthComponent = () => {
             message: `${t.greet.welcome} ${greet(user)}`,
           })
           setUserContext(user)
+          addUser(user)
           router.push(ROUTES.home).then(() => setLoading(false))
         }
       })

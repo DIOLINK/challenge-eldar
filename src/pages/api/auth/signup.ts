@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-import { findUserByEmail, users } from '@/data/users'
+import { addUser, findUserByEmail, users } from '@/data/users'
 import { createToken } from '@/libs/jwt'
 import { RoleUser, User } from '@/types'
 import { hashPassword } from '@/utils/hashPass'
@@ -52,6 +52,7 @@ export default async function handler(
         catchPhrase: '',
       },
     }
+    addUser(newUser)
     const token = await createToken({
       id: newUser.id,
       username: newUser.login.username,
