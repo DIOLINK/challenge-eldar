@@ -15,7 +15,7 @@ import {
   useEffect,
   useState,
 } from 'react'
-
+import { uuid } from 'uuidv4'
 interface ApiContextType {
   users?: User[]
   values: FlattenedObject
@@ -24,6 +24,7 @@ interface ApiContextType {
   addUser: (user: User) => void
   editUsers: (user: User) => void
   deleteUsers: () => void
+  createUser: () => void
   setRowSelectionModel: Dispatch<SetStateAction<GridRowSelectionModel>>
   handleInputChange: (event: ChangeEvent<HTMLInputElement>) => void
 }
@@ -37,9 +38,7 @@ export const UsersContextProvider = ({ children }: PropsWithChildren) => {
   const [users, setUsers] = useState<User[]>(storedUsersValue as User[])
 
   const { values, handleInputChange, reset } = useForm<FlattenedObject>({
-    ...flattenObject({
-      ...users.find((user) => user.id === rowSelectionModel[0]),
-    }),
+    ...flattenObject({} as User),
   })
 
   function userByValues(user?: User): User {
@@ -85,13 +84,17 @@ export const UsersContextProvider = ({ children }: PropsWithChildren) => {
 
   useEffect(() => {
     const findUser = users.find((user) => user.id === rowSelectionModel[0])
-    if (!findUser) return
-    userByValues(findUser)
-    reset({
-      ...flattenObject({
-        ...findUser,
-      }),
-    })
+    if (!findUser) {
+      reset({
+        ...flattenObject({} as User),
+      })
+    } else {
+      reset({
+        ...flattenObject({
+          ...findUser,
+        }),
+      })
+    }
   }, [setRowSelectionModel, rowSelectionModel])
 
   useEffect(() => {
@@ -112,6 +115,43 @@ export const UsersContextProvider = ({ children }: PropsWithChildren) => {
       setUsers((oldUsers) => [...oldUsers, newUser])
       setUsersValue(users)
     }
+  }
+
+  function createUser() {
+    const newUser: User = {
+      id: users.length + 1,
+      firstname: values['firstname'] as string,
+      lastname: values['lastname'] as string,
+      email: values['email'] as string,
+      login: {
+        uuid: uuid(),
+        username: values['login.username'] as string,
+        password: values['login.password'] as string,
+        md5: values['login.md5'] as string,
+        sha1: values['login.sha1'] as string,
+        registered: new Date(values['login.re'] as string),
+      },
+      address: {
+        city: values['address.city'] as string,
+        geo: {
+          lng: values['address.geo.lng'] as string,
+          lat: values['address.geo.lat'] as string,
+        },
+        street: values['address.street'] as string,
+        suite: values['address.suite'] as string,
+        zipcode: values['address.zipcode'] as string,
+      },
+      birthDate: new Date(values['birthDate'] as string),
+      role: RoleUser.user,
+      phone: values['phone'] as string,
+      website: values['website'] as string,
+      company: {
+        bs: values['company.bs'] as string,
+        name: values['company.name'] as string,
+        catchPhrase: values['company.catchPhrase'] as string,
+      },
+    }
+    addUser(newUser)
   }
 
   function editUsers() {
@@ -141,6 +181,7 @@ export const UsersContextProvider = ({ children }: PropsWithChildren) => {
         setUsersContext,
         addUser,
         editUsers,
+        createUser,
         deleteUsers,
         setRowSelectionModel,
       }}

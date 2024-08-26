@@ -1,4 +1,5 @@
-import { useUiContext } from '@/context'
+import { useApiContext, useUiContext } from '@/context'
+import { postUser } from '@/services'
 import { RenderDialogProps } from '@/types'
 import { Button, Dialog, DialogTitle } from '@mui/material'
 import { ActiosButons } from './ActionButon'
@@ -14,7 +15,7 @@ export const RenderDialog = ({
   onSucces,
 }: RenderDialogProps) => {
   const { setAlerts, setLoading } = useUiContext()
-
+  const { createUser } = useApiContext()
   function handleSuccess() {
     if (onSucces && onHideDialog) {
       onSucces()
@@ -22,7 +23,22 @@ export const RenderDialog = ({
     }
   }
 
-  const handleUser = () => {
+  const handleCreateUser = () => {
+    setLoading(true)
+
+    postUser().then(() => {
+      setAlerts({
+        open: true,
+        severity: 'success',
+        isPermanent: false,
+        message: 'Success',
+      })
+      onHideDialog()
+      createUser()
+      setLoading(false)
+    })
+  }
+  const handleEditUser = () => {
     setLoading(true)
 
     setAlerts({
@@ -49,7 +65,7 @@ export const RenderDialog = ({
       <>
         <DialogEdit open={open} />
         <ActiosButons onCancel={onHideDialog}>
-          <Button onClick={handleUser}>Send</Button>
+          <Button onClick={handleEditUser}>Send</Button>
         </ActiosButons>
       </>
     ),
@@ -57,7 +73,7 @@ export const RenderDialog = ({
       <>
         <DialogEdit open={open} />
         <ActiosButons onCancel={onHideDialog}>
-          <Button onClick={handleUser}>Send</Button>
+          <Button onClick={handleCreateUser}>Send</Button>
         </ActiosButons>
       </>
     ),

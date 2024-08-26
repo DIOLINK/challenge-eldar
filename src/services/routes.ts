@@ -16,4 +16,7 @@ export const API_ROUTES = {
   edituser: function (): string {
     return `${this.root_users}/edituser`
   },
+  createuser: function (): string {
+    return `${this.root_users}/createuser`
+  },
 }
